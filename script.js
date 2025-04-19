@@ -9,6 +9,23 @@ const filterBtns = document.querySelectorAll('.filter-btn');
 const clearCompletedBtn = document.getElementById('clear-completed');
 const desktopAppBtn = document.getElementById('desktop-app');
 
+// تم إزالة وظيفة النمط الليلي
+const themeToggleBtn = document.getElementById('theme-toggle');
+
+// إخفاء زر النمط الليلي
+if (themeToggleBtn) {
+    themeToggleBtn.style.display = 'none';
+}
+
+// إزالة أي نمط ليلي محفوظ سابقاً
+document.addEventListener('DOMContentLoaded', () => {
+    // إزالة النمط الليلي من localStorage
+    localStorage.removeItem('dark-mode');
+    
+    // التأكد من إزالة كلاس dark-mode من الصفحة
+    document.body.classList.remove('dark-mode');
+});
+
 const ITEMS_PER_PAGE = 9;
 let currentPage = 1;
 
@@ -187,11 +204,16 @@ function addTaskListeners(taskElement) {
     const id = Number(taskElement.dataset.id);
     const checkbox = taskElement.querySelector('.task-checkbox');
     const deleteBtn = taskElement.querySelector('.delete-btn');
+    const editBtn = taskElement.querySelector('.edit-btn');
     
     checkbox?.addEventListener('change', () => toggleTask(id));
     deleteBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
         deleteTask(id);
+    });
+    editBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        editTask(id);
     });
 }
 
@@ -280,6 +302,80 @@ async function toggleTask(id) {
     updateHistoryView();
 }
 
+// إضافة وظيفة تعديل المهمة
+async function editTask(id) {
+    const taskIndex = tasks.findIndex(task => task.id === id);
+    if (taskIndex === -1) return;
+
+    // إنشاء نافذة منبثقة للتعديل
+    const editDialog = document.createElement('div');
+    editDialog.className = 'confirm-dialog';
+    editDialog.innerHTML = `
+        <div class="confirm-content">
+            <h3>تعديل المهمة</h3>
+            <input type="text" id="edit-task-input" value="${tasks[taskIndex].text}" class="edit-task-input">
+            <div class="confirm-buttons">
+                <button class="confirm-yes">حفظ</button>
+                <button class="confirm-no">إلغاء</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(editDialog);
+    const editInput = document.getElementById('edit-task-input');
+    editInput.focus();
+    editInput.select();
+
+    try {
+        const result = await new Promise((resolve) => {
+            const saveBtn = editDialog.querySelector('.confirm-yes');
+            const cancelBtn = editDialog.querySelector('.confirm-no');
+            
+            saveBtn.onclick = () => {
+                const newText = editInput.value.trim();
+                if (newText) {
+                    resolve({ confirmed: true, text: newText });
+                } else {
+                    editInput.focus();
+                }
+            };
+            
+            cancelBtn.onclick = () => resolve({ confirmed: false });
+            
+            // إضافة إمكانية الحفظ بالضغط على Enter
+            editInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const newText = editInput.value.trim();
+                    if (newText) {
+                        resolve({ confirmed: true, text: newText });
+                    }
+                }
+            });
+        });
+
+        if (result.confirmed && result.text) {
+            // تحديث المهمة
+            tasks[taskIndex].text = result.text;
+            tasks[taskIndex].lastModified = new Date().toISOString();
+            
+            // تحديث العنصر في واجهة المستخدم مباشرة
+            const taskElement = document.querySelector(`[data-id="${id}"]`);
+            if (taskElement) {
+                const taskTextElement = taskElement.querySelector('.task-text');
+                if (taskTextElement) {
+                    taskTextElement.textContent = result.text;
+                }
+            }
+            
+            // حفظ التغييرات
+            saveTasks();
+            renderTasks();
+        }
+    } finally {
+        document.body.removeChild(editDialog);
+    }
+}
+
 // تحسين وظيفة تحديث المهام
 function renderTasks(filter = 'all') {
     if (!taskList) return;
@@ -303,6 +399,7 @@ function addTaskEventListeners() {
     taskItems.forEach(item => {
         const checkbox = item.querySelector('.task-checkbox');
         const deleteBtn = item.querySelector('.delete-btn');
+        const editBtn = item.querySelector('.edit-btn');
         const id = Number(item.dataset.id);
 
         if (checkbox) {
@@ -313,6 +410,13 @@ function addTaskEventListeners() {
             deleteBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 deleteTask(id);
+            });
+        }
+
+        if (editBtn) {
+            editBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                editTask(id);
             });
         }
     });

@@ -1,0 +1,204 @@
+/**
+ * أنماط التوتوريال - تخصيص مظهر مكتبة Intro.js
+ */
+
+/* استيراد أنماط Intro.js الأساسية */
+@import url('https://cdn.jsdelivr.net/npm/intro.js@7.2.0/minified/introjs.min.css');
+
+/* تخصيص أنماط التوتوريال لتتناسب مع تصميم الموقع */
+.introjs-tooltip {
+    background-color: #ffffff;
+    color: #333333;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--a11y-border-color, #e0e0e0);
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    text-align: right;
+    max-width: 350px;
+}
+
+.introjs-tooltiptext {
+    padding: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.introjs-tooltip-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--a11y-primary-dark, #00897b);
+}
+
+.introjs-tooltipbuttons {
+    border-top: 1px solid var(--a11y-border-color, #e0e0e0);
+    padding: 12px 20px;
+    text-align: left; /* تغيير لدعم اللغة العربية */
+}
+
+.introjs-button {
+    background: var(--a11y-bg-color-secondary, #f8f9fa);
+    border: 1px solid var(--a11y-border-color, #e0e0e0);
+    color: var(--a11y-text-color, #333333);
+    font-family: 'Cairo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 0 0 0 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.introjs-button:hover {
+    background-color: var(--a11y-button-hover, rgba(77, 182, 172, 0.1));
+    border-color: var(--a11y-primary-light, #80cbc4);
+    color: var(--a11y-primary-dark, #00897b);
+}
+
+.introjs-button:focus {
+    outline: 2px solid var(--a11y-primary-color, #4db6ac);
+    outline-offset: 2px;
+}
+
+.introjs-nextbutton {
+    background: var(--a11y-gradient-primary, linear-gradient(135deg, #4db6ac 0%, #00897b 100%));
+    color: white;
+    border: none;
+}
+
+.introjs-nextbutton:hover {
+    background: var(--a11y-primary-dark, #00897b);
+    color: white;
+    box-shadow: 0 4px 12px rgba(77, 182, 172, 0.3);
+}
+
+.introjs-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.introjs-arrow {
+    border-color: transparent;
+}
+
+.introjs-arrow.top, .introjs-arrow.top-middle, .introjs-arrow.top-right {
+    border-bottom-color: #ffffff;
+}
+
+.introjs-arrow.right, .introjs-arrow.right-bottom {
+    border-left-color: #ffffff;
+}
+
+.introjs-arrow.bottom, .introjs-arrow.bottom-middle, .introjs-arrow.bottom-right {
+    border-top-color: #ffffff;
+}
+
+.introjs-arrow.left, .introjs-arrow.left-bottom {
+    border-right-color: #ffffff;
+}
+
+/* تخصيص طبقة التظليل */
+.introjs-helperLayer {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--a11y-primary-color, #4db6ac);
+    box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+/* تخصيص زر التوتوريال */
+.tutorial-btn {
+    position: relative;
+}
+
+.tutorial-btn::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--a11y-primary-color, #4db6ac);
+    border-radius: 50%;
+    animation: pulse-tutorial 2s infinite;
+}
+
+@keyframes pulse-tutorial {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* تخصيص للوضع الداكن */
+.dark-mode .introjs-tooltip {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+}
+
+.dark-mode .introjs-tooltipbuttons {
+    border-top-color: #555;
+}
+
+.dark-mode .introjs-button {
+    background: #444;
+    border-color: #555;
+    color: #eee;
+}
+
+.dark-mode .introjs-button:hover {
+    background-color: #555;
+}
+
+.dark-mode .introjs-arrow.top, 
+.dark-mode .introjs-arrow.top-middle, 
+.dark-mode .introjs-arrow.top-right {
+    border-bottom-color: #333;
+}
+
+.dark-mode .introjs-arrow.right, 
+.dark-mode .introjs-arrow.right-bottom {
+    border-left-color: #333;
+}
+
+.dark-mode .introjs-arrow.bottom, 
+.dark-mode .introjs-arrow.bottom-middle, 
+.dark-mode .introjs-arrow.bottom-right {
+    border-top-color: #333;
+}
+
+.dark-mode .introjs-arrow.left, 
+.dark-mode .introjs-arrow.left-bottom {
+    border-right-color: #333;
+}
+
+/* تخصيص للأجهزة المحمولة */
+@media (max-width: 768px) {
+    .introjs-tooltip {
+        max-width: 90%;
+        min-width: auto;
+    }
+    
+    .introjs-tooltiptext {
+        padding: 15px;
+        font-size: 13px;
+    }
+    
+    .introjs-tooltipbuttons {
+        padding: 10px 15px;
+    }
+    
+    .introjs-button {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+}

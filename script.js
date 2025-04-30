@@ -1,5 +1,26 @@
-// تحديث متغير المهام ليقرأ من localStorage
+// استيراد وظائف قاعدة البيانات
+import { initDatabase, fetchTasks, addTaskToDatabase, updateTaskInDatabase, deleteTaskFromDatabase, syncTasks } from './database.js';
+
+// تحديث متغير المهام ليقرأ من localStorage ثم مزامنته مع قاعدة البيانات
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+// تهيئة قاعدة البيانات ومزامنة المهام عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // تهيئة قاعدة البيانات
+        await initDatabase();
+        
+        // مزامنة المهام المحلية مع قاعدة البيانات
+        tasks = await syncTasks(tasks);
+        
+        // تحديث واجهة المستخدم
+        renderTasks();
+        updateStats();
+    } catch (error) {
+        console.error('خطأ في تهيئة قاعدة البيانات:', error);
+    }
+});
+
 
 const taskForm = document.getElementById('task-form');
 const taskInput = document.getElementById('task-input');
@@ -12,26 +33,32 @@ const desktopAppBtn = document.getElementById('desktop-app');
 // تم إزالة وظيفة النمط الليلي
 const themeToggleBtn = document.getElementById('theme-toggle');
 
-// إخفاء زر النمط الليلي
+// إعادة ضبط زر النمط الليلي
 if (themeToggleBtn) {
-    themeToggleBtn.style.display = 'none';
-}
-
-// إزالة أي نمط ليلي محفوظ سابقاً
-document.addEventListener('DOMContentLoaded', () => {
-    // إزالة النمط الليلي من localStorage
+    // إزالة النمط الليلي إذا كان مفعلاً
+    document.body.classList.remove('dark-mode');
+    
+    // إعادة ضبط أيقونة ونص الزر
+    themeToggleBtn.querySelector('i').classList.remove('fa-sun');
+    themeToggleBtn.querySelector('i').classList.add('fa-moon');
+    themeToggleBtn.querySelector('span').textContent = 'النمط الليلي';
+    
+    // إزالة الإعداد من localStorage
     localStorage.removeItem('dark-mode');
     
-    // التأكد من إزالة كلاس dark-mode من الصفحة
-    document.body.classList.remove('dark-mode');
-});
+    // تعطيل وظيفة زر النمط الليلي
+    themeToggleBtn.style.display = 'none';
+}
 
 const ITEMS_PER_PAGE = 9;
 let currentPage = 1;
 
 // تحديث وظيفة حفظ المهام
-function saveTasks() {
+async function saveTasks() {
+    // حفظ في التخزين المحلي
     localStorage.setItem('tasks', JSON.stringify(tasks));
+    
+    // تحديث واجهة المستخدم
     requestAnimationFrame(() => {
         updateTasksCounter();
         updateStats();
@@ -143,7 +170,7 @@ function updateStats() {
 }
 
 // تحسين وظيفة إضافة المهمة
-function addTask(text) {
+async function addTask(text) {
     if (!text.trim()) return;
     
     const task = {
@@ -173,6 +200,13 @@ function addTask(text) {
         updateDateFilter();
         updateRecentTasks();
     });
+    
+    // إضافة المهمة إلى قاعدة البيانات
+    try {
+        await addTaskToDatabase(task);
+    } catch (error) {
+        console.error('خطأ في إضافة المهمة إلى قاعدة البيانات:', error);
+    }
 }
 
 // إضافة وظيفة إنشاء عنصر المهمة
@@ -259,6 +293,13 @@ async function deleteTask(id) {
                     updateDateFilter();
                     updateRecentTasks();
                 });
+                
+                // حذف المهمة من قاعدة البيانات
+                try {
+                    deleteTaskFromDatabase(id);
+                } catch (error) {
+                    console.error('خطأ في حذف المهمة من قاعدة البيانات:', error);
+                }
             }, 300);
         }
     } finally {
@@ -300,6 +341,13 @@ async function toggleTask(id) {
     saveTasks();
     renderTasks();
     updateHistoryView();
+    
+    // تحديث المهمة في قاعدة البيانات
+    try {
+        await updateTaskInDatabase(tasks[taskIndex]);
+    } catch (error) {
+        console.error('خطأ في تحديث حالة المهمة في قاعدة البيانات:', error);
+    }
 }
 
 // إضافة وظيفة تعديل المهمة
@@ -370,6 +418,13 @@ async function editTask(id) {
             // حفظ التغييرات
             saveTasks();
             renderTasks();
+            
+            // تحديث المهمة في قاعدة البيانات
+            try {
+                await updateTaskInDatabase(tasks[taskIndex]);
+            } catch (error) {
+                console.error('خطأ في تحديث المهمة في قاعدة البيانات:', error);
+            }
         }
     } finally {
         document.body.removeChild(editDialog);
@@ -377,8 +432,20 @@ async function editTask(id) {
 }
 
 // تحسين وظيفة تحديث المهام
-function renderTasks(filter = 'all') {
+async function renderTasks(filter = 'all') {
     if (!taskList) return;
+
+    // محاولة جلب المهام من قاعدة البيانات إذا كانت المصفوفة فارغة
+    if (tasks.length === 0) {
+        try {
+            const dbTasks = await fetchTasks();
+            if (dbTasks && dbTasks.length > 0) {
+                tasks = dbTasks;
+            }
+        } catch (error) {
+            console.error('خطأ في جلب المهام من قاعدة البيانات:', error);
+        }
+    }
 
     requestAnimationFrame(() => {
         let filteredTasks = [...tasks];
@@ -527,10 +594,10 @@ function renderHistoryTasks(selectedDate = '') {
                             ${task.completed ? 'مكتملة' : 'قيد التنفيذ'}
                         </span>
                         <div class="task-actions">
-                            <button class="edit-btn" onclick="editTask(${task.id})">
+                            <button class="edit-btn" data-id="${task.id}">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="delete-btn" onclick="deleteTask(${task.id})">
+                            <button class="delete-btn" data-id="${task.id}">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -539,6 +606,9 @@ function renderHistoryTasks(selectedDate = '') {
             </div>
         </div>
     `).join('');
+    
+    // إضافة مستمعي الأحداث لأزرار التعديل والحذف في المهام السابقة
+    addHistoryTaskEventListeners();
 }
 
 // تحديث عرض التاريخ المحدد
@@ -583,7 +653,7 @@ function switchView(viewId) {
         document.querySelectorAll('.view').forEach(view => {
             view.style.display = 'none';
         });
-        document.querySelectorAll('.nav-link').forEach(link => {
+        document.querySelectorAll('.modern-nav-btn').forEach(link => {
             link.classList.remove('active');
         });
         
@@ -611,7 +681,7 @@ function switchView(viewId) {
 }
 
 // إضافة مستمعي الأحداث للتنقل
-document.querySelectorAll('.nav-link').forEach(link => {
+document.querySelectorAll('.modern-nav-btn').forEach(link => {
     link.addEventListener('click', () => {
         switchView(link.dataset.view);
     });
@@ -636,6 +706,29 @@ function updateHistoryView() {
     if (historyView && historyView.style.display !== 'none') {
         renderHistoryTasks();
     }
+}
+
+// إضافة وظيفة مستمعي الأحداث للمهام السابقة
+function addHistoryTaskEventListeners() {
+    // إضافة مستمعي الأحداث لأزرار التعديل
+    const editButtons = document.querySelectorAll('.history-tasks .edit-btn');
+    editButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = Number(button.getAttribute('data-id'));
+            editTask(id);
+        });
+    });
+    
+    // إضافة مستمعي الأحداث لأزرار الحذف
+    const deleteButtons = document.querySelectorAll('.history-tasks .delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const id = Number(button.getAttribute('data-id'));
+            deleteTask(id);
+        });
+    });
 }
 
 // معالجة النماذج والأحداث

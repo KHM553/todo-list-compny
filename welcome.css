@@ -1,0 +1,198 @@
+:root {
+    --welcome-bg: linear-gradient(135deg, #f5f7fa 0%, #e4f1f9 100%);
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    --card-hover-shadow: 0 15px 35px rgba(14, 190, 126, 0.2);
+    --card-border: 1px solid rgba(14, 190, 126, 0.1);
+    --icon-bg: linear-gradient(135deg, #0ebf7e 0%, #00bf9a 100%);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-accent: #0ebf7e;
+    --btn-gradient: linear-gradient(135deg, #0ebf7e 0%, #00bf9a 100%);
+    --btn-shadow: 0 10px 20px rgba(14, 190, 126, 0.3);
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', sans-serif;
+    background: var(--welcome-bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    direction: rtl;
+    color: var(--text-primary);
+}
+
+.welcome-container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+}
+
+.welcome-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.welcome-logo {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite alternate;
+}
+
+.welcome-title {
+    font-size: 3rem;
+    margin: 0 0 15px 0;
+    color: var(--text-primary);
+}
+
+.brand-name {
+    color: var(--text-accent);
+    font-weight: 700;
+    position: relative;
+}
+
+.welcome-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    width: 100%;
+}
+
+.feature-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    transition: var(--transition-normal);
+    text-align: center;
+    opacity: 0;
+    transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: rgba(14, 190, 126, 0.3);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--icon-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    color: white;
+    font-size: 1.8rem;
+    box-shadow: 0 10px 20px rgba(14, 190, 126, 0.2);
+}
+
+.feature-card h3 {
+    font-size: 1.4rem;
+    margin: 0 0 15px 0;
+    color: var(--text-primary);
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.welcome-footer {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.start-btn {
+    display: inline-block;
+    padding: 15px 40px;
+    background: var(--btn-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    box-shadow: var(--btn-shadow);
+    transition: var(--transition-normal);
+    margin-bottom: 30px;
+}
+
+.start-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(14, 190, 126, 0.4);
+}
+
+.copyright {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.designer-name {
+    color: var(--text-accent);
+    font-weight: 600;
+}
+
+/* تأثيرات الحركة */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+    .welcome-title {
+        font-size: 2.2rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1rem;
+    }
+    
+    .features-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .welcome-logo {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .feature-card {
+        padding: 20px;
+    }
+}

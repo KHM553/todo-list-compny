@@ -1,0 +1,391 @@
+/* ملف التصميم المتجاوب لتطبيق مُحكم */
+/* يحتوي على قواعد CSS لجعل التطبيق متوافقًا مع جميع أحجام الشاشات */
+
+/* قواعد عامة للتصميم المتجاوب */
+:root {
+    --container-width: 1200px;
+    --container-padding: 20px;
+}
+
+.app-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+    width: 100%;
+}
+
+/* تحسينات عامة للتصميم المتجاوب */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+input, select, button, textarea {
+    max-width: 100%;
+}
+
+.view {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* تحسين عرض الجداول والقوائم */
+table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+}
+
+/* تحسين عرض النماذج */
+form {
+    width: 100%;
+}
+
+/* الشاشات الكبيرة (أجهزة الكمبيوتر المكتبية) */
+@media (min-width: 1200px) {
+    .stats-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+    }
+    
+    .tasks-overview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
+/* الشاشات المتوسطة (أجهزة الكمبيوتر المحمولة) */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .app-container {
+        max-width: 960px;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .tasks-overview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+}
+
+/* الشاشات الصغيرة (الأجهزة اللوحية) */
+@media (max-width: 991px) and (min-width: 768px) {
+    .app-container {
+        max-width: 720px;
+    }
+    
+    .stats-container {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+    
+    .tasks-overview {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    .main-content {
+        padding: 15px;
+    }
+    
+    .view-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .view-actions {
+        width: 100%;
+    }
+    
+    .task-filters {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+
+/* الهواتف الذكية (الشاشات الصغيرة جدًا) */
+@media (max-width: 767px) {
+    :root {
+        --container-padding: 10px;
+    }
+    
+    .app-container {
+        max-width: 100%;
+        padding: 0 var(--container-padding);
+    }
+    
+    .app-header {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 10px;
+        margin: 0 5px 15px 5px;
+    }
+    
+    .header-brand {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .modern-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .tasks-overview {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .main-content {
+        padding: 10px 5px;
+    }
+    
+    .view-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .view-actions {
+        width: 100%;
+    }
+    
+    .task-filters {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        width: 100%;
+        gap: 10px;
+    }
+    
+    .filter-btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .tasks-container {
+        padding: 15px 10px;
+    }
+    
+    .tasks-header form {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    #task-input {
+        width: 100%;
+    }
+    
+    .add-btn {
+        width: 100%;
+    }
+    
+    .task-item {
+        padding: 12px 10px;
+    }
+    
+    .task-actions {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .history-filters {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .calendar-wrapper {
+        width: 100%;
+    }
+    
+    .calendar-controls {
+        width: 100%;
+    }
+    
+    #status-filter {
+        width: 100%;
+    }
+    
+    .app-footer {
+        padding: 15px 10px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .footer-brand {
+        justify-content: center;
+    }
+    
+    .footer-text p {
+        font-size: 12px;
+    }
+}
+
+/* الهواتف الصغيرة */
+@media (max-width: 480px) {
+    .app-header {
+        padding: 12px 8px;
+        margin: 0 3px 12px 3px;
+    }
+    
+    .modern-nav-btn {
+        padding: 8px;
+    }
+    
+    .modern-nav-btn span {
+        display: none;
+    }
+    
+    .modern-nav-btn i {
+        font-size: 20px;
+        margin: 0;
+    }
+    
+    h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    h3 {
+        font-size: 16px;
+    }
+    
+    .stat-card {
+        padding: 12px 10px;
+    }
+    
+    .stat-card i {
+        font-size: 24px;
+    }
+    
+    .task-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .task-content {
+        width: 100%;
+    }
+    
+    .task-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .action-btn {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .action-btn i {
+        font-size: 14px;
+    }
+    
+    /* تحسينات إضافية للهواتف الصغيرة */
+    .app-container {
+        padding: 0 5px;
+    }
+    
+    .main-content {
+        padding: 5px;
+    }
+    
+    .footer-content {
+        padding: 10px 5px;
+    }
+    
+    .footer-text p {
+        font-size: 11px;
+        line-height: 1.4;
+    }
+    
+    .tasks-list ul {
+        padding: 5px;
+    }
+    
+    .history-content {
+        padding: 5px;
+    }
+    
+    /* تحسين عرض الإحصائيات */
+    #tasks-progress {
+        padding: 10px;
+    }
+    
+    .progress-bar {
+        height: 12px;
+    }
+    
+    .activity-list {
+        max-height: 200px;
+    }
+}
+
+/* الهواتف الصغيرة جدًا */
+@media (max-width: 360px) {
+    .app-header {
+        padding: 10px 5px;
+        margin: 0 2px 10px 2px;
+    }
+    
+    .header-brand span {
+        font-size: 16px;
+    }
+    
+    .header-brand img {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .modern-nav {
+        padding: 5px;
+        gap: 3px;
+    }
+    
+    .modern-nav-btn {
+        padding: 6px;
+    }
+    
+    .modern-nav-btn i {
+        font-size: 18px;
+    }
+    
+    .stat-card {
+        padding: 10px 8px;
+    }
+    
+    .stat-info h3 {
+        font-size: 14px;
+    }
+    
+    #task-input {
+        padding: 8px;
+        font-size: 13px;
+    }
+    
+    .add-btn {
+        padding: 8px;
+        font-size: 13px;
+    }
+}

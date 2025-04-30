@@ -1,0 +1,235 @@
+/* تحسينات النمط الليلي - تأثيرات بصرية وعناصر جذابة مع اللون الأخضر المشع والأسود */
+
+/* خلفية متدرجة للنمط الليلي */
+body.dark-mode {
+    background: var(--dark-bg-color);
+    color: var(--dark-text-primary);
+    background-image: 
+        radial-gradient(circle at 10% 20%, rgba(15, 229, 160, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 90% 80%, rgba(0, 224, 160, 0.05) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(15, 229, 160, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
+    letter-spacing: 0.03em; /* تحسين قراءة النص في النمط الليلي */
+}
+
+/* تأثير توهج للأزرار والعناصر التفاعلية */
+body.dark-mode .modern-nav-btn:hover,
+body.dark-mode .add-btn:hover,
+body.dark-mode .filter-btn:hover {
+    box-shadow: 0 0 20px rgba(15, 229, 160, 0.6);
+    transform: translateY(-2px);
+}
+
+/* تأثير توهج للبطاقات */
+body.dark-mode .stat-card {
+    background: linear-gradient(145deg, var(--dark-card-bg), rgba(0, 10, 10, 0.9));
+    border: 1px solid rgba(15, 229, 160, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(15, 229, 160, 0.2);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+body.dark-mode .stat-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 20px rgba(15, 229, 160, 0.3);
+    transform: translateY(-5px);
+    border: 1px solid rgba(15, 229, 160, 0.25);
+}
+
+/* تأثير توهج للأيقونات */
+body.dark-mode .stat-card i,
+body.dark-mode .modern-nav-btn i,
+body.dark-mode .task-item i {
+    filter: drop-shadow(0 0 4px rgba(15, 229, 160, 0.5));
+    transition: all 0.3s ease;
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .stat-card:hover i,
+body.dark-mode .modern-nav-btn:hover i,
+body.dark-mode .task-item:hover i {
+    filter: drop-shadow(0 0 8px rgba(15, 229, 160, 0.7));
+    transform: scale(1.1);
+}
+
+/* تأثير نيون للعنوان الرئيسي - تم تحسينه ليكون أكثر توهجاً مع اللون الأخضر المشع */
+body.dark-mode .header-brand span {
+    background: linear-gradient(to right, var(--dark-text-primary), var(--dark-primary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px rgba(15, 229, 160, 0.4);
+    animation: glow 2.5s ease-in-out infinite alternate;
+    font-weight: 600; /* تحسين وضوح الخط */
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px rgba(15, 229, 160, 0.3);
+    }
+    to {
+        text-shadow: 0 0 15px rgba(15, 229, 160, 0.6), 0 0 20px rgba(15, 229, 160, 0.3);
+    }
+}
+
+/* تأثير زجاجي للقوائم والبطاقات - تم تحسينه ليكون أكثر قتامة مع لمسة من التوهج الأخضر */
+body.dark-mode .tasks-list,
+body.dark-mode .history-content,
+body.dark-mode .recent-activity {
+    background: rgba(0, 10, 10, 0.75); /* خلفية أكثر قتامة */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(15, 229, 160, 0.1); /* حدود خضراء مشعة خفيفة */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3), 0 0 15px rgba(15, 229, 160, 0.1); /* ظل مع توهج أخضر */
+}
+
+/* تأثير توهج لزر تبديل النمط */
+body.dark-mode .theme-btn {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(15, 229, 160, 0.2);
+    background-color: rgba(0, 10, 10, 0.8);
+}
+
+body.dark-mode .theme-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(15, 229, 160, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body.dark-mode .theme-btn:hover::before {
+    opacity: 1;
+    animation: pulse-theme 2s infinite;
+}
+
+@keyframes pulse-theme {
+    0% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+    50% {
+        transform: scale(1);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+}
+
+/* تأثير توهج للمهام المكتملة */
+body.dark-mode .task-item.completed {
+    border-left: 3px solid var(--dark-success-color);
+    box-shadow: 0 0 15px rgba(0, 200, 150, 0.3);
+    background-color: rgba(0, 15, 15, 0.7);
+}
+
+/* تأثير نجوم متحركة في الخلفية - تم تحسينه ليكون بلون أخضر مشع على خلفية سوداء */
+body.dark-mode::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(1px 1px at 10% 10%, rgba(15, 229, 160, 0.2) 50%, transparent 100%),
+        radial-gradient(1px 1px at 20% 50%, rgba(15, 229, 160, 0.15) 50%, transparent 100%),
+        radial-gradient(1px 1px at 30% 30%, rgba(0, 224, 160, 0.2) 50%, transparent 100%),
+        radial-gradient(1px 1px at 40% 70%, rgba(0, 224, 160, 0.15) 50%, transparent 100%),
+        radial-gradient(1px 1px at 60% 40%, rgba(15, 229, 160, 0.2) 50%, transparent 100%),
+        radial-gradient(1px 1px at 70% 20%, rgba(0, 224, 160, 0.15) 50%, transparent 100%),
+        radial-gradient(1px 1px at 80% 60%, rgba(15, 229, 160, 0.2) 50%, transparent 100%),
+        radial-gradient(1px 1px at 90% 90%, rgba(0, 224, 160, 0.15) 50%, transparent 100%);
+    background-size: 100% 100%;
+    animation: stars 18s linear infinite;
+    opacity: 0.6; /* تخفيف الشفافية الإجمالية */
+}
+
+@keyframes stars {
+    0% {
+        opacity: 0.15;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.15;
+    }
+}
+
+/* تأثير انتقالي سلس عند تبديل النمط */
+body, body.dark-mode {
+    transition: background 0.5s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* تحسين شكل شريط التقدم في النمط الليلي */
+body.dark-mode .progress-bar {
+    background: rgba(0, 10, 10, 0.9);
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    border: 1px solid rgba(15, 229, 160, 0.1);
+}
+
+body.dark-mode .progress {
+    background: linear-gradient(90deg, var(--dark-primary-color), var(--dark-success-color));
+    box-shadow: 0 0 15px rgba(15, 229, 160, 0.6);
+    position: relative;
+    overflow: hidden;
+}
+
+body.dark-mode .progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(15, 229, 160, 0.3), transparent);
+    animation: progress-shine 2s infinite linear;
+}
+
+@keyframes progress-shine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* تحسين شكل الأزرار في النمط الليلي */
+body.dark-mode .add-btn,
+body.dark-mode .filter-btn.active {
+    background: linear-gradient(135deg, var(--dark-primary-color) 0%, var(--dark-primary-light) 100%);
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba(15, 229, 160, 0.4);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+body.dark-mode .add-btn::before,
+body.dark-mode .filter-btn.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(15, 229, 160, 0.3), transparent);
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+body.dark-mode .add-btn:hover::before,
+body.dark-mode .filter-btn.active:hover::before {
+    left: 100%;
+    transition: all 0.5s ease;
+}

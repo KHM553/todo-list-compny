@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <!-- الدائرة الخارجية البيضاء -->
+  <path d="M500 100C279.1 100 100 279.1 100 500s179.1 400 400 400 400-179.1 400-400S720.9 100 500 100z" fill="#ffffff"/>
+  
+  <!-- الجزء الأخضر من الدائرة -->
+  <path d="M500 100c-220.9 0-400 179.1-400 400 0 220.9 179.1 400 400 400" fill="none" stroke="#4CAF50" stroke-width="80"/>
+  
+  <!-- علامة الصح الخضراء -->
+  <path d="M420 580l100 100 200-200" fill="none" stroke="#4CAF50" stroke-width="80" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

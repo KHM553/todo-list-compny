@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مُحكم</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="accessibility.css">
+    <link rel="stylesheet" href="tutorial.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="logo.svg" type="image/svg+xml">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-brand">
+                <img src="logo.svg" alt="شعار مُحكم" width="30" height="30">
+                <span>مُحكم</span>
+            </div>
+            <div class="modern-nav">
+                <button class="modern-nav-btn active" data-view="dashboard">
+                    <i class="fas fa-th-large"></i>
+                    <span>لوحة التحكم</span>
+                </button>
+                <button class="modern-nav-btn" data-view="tasks">
+                    <i class="fas fa-tasks"></i>
+                    <span>المهام اليومية</span>
+                </button>
+                <button class="modern-nav-btn" data-view="history">
+                    <i class="fas fa-history"></i>
+                    <span>المهام السابقة</span>
+                </button>
+                <!-- تم إزالة زر النمط الليلي -->
+            </div>
+        </header>
+        <main class="main-content">
+            <!-- لوحة التحكم -->
+            <section id="dashboard-view" class="view">
+                <h1>لوحة التحكم</h1>
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-clipboard-list"></i>
+                        <div class="stat-info">
+                            <h3>إجمالي المهام</h3>
+                            <span id="total-tasks">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-hourglass-half"></i>
+                        <div class="stat-info">
+                            <h3>قيد التنفيذ</h3>
+                            <span id="active-tasks">1</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-check-double"></i>
+                        <div class="stat-info">
+                            <h3>مكتملة</h3>
+                            <span id="completed-tasks">1</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tasks-overview">
+                    <div class="recent-activity">
+                        <h2>آخر النشاطات</h2>
+                        <div class="activity-list">
+                            <!-- سيتم ملؤها بواسطة JavaScript -->
+                        </div>
+                    </div>
+                    <div class="tasks-chart">
+                        <h2>إحصائيات المهام</h2>
+                        <div id="tasks-progress">
+                            <div class="progress-bar">
+                                <div class="progress" id="completion-rate"></div>
+                            </div>
+                            <span class="progress-text" id="progress-percent">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- المهام اليومية -->
+            <section id="tasks-view" class="view" style="display: none">
+                <header class="view-header">
+                    <h1>المهام اليومية</h1>
+                    <div class="view-actions">
+                        <div class="task-filters">
+                            <button class="filter-btn active" data-filter="all">
+                                <i class="fas fa-tasks"></i>
+                                <span>جميع المهام</span>
+                            </button>
+                            <button class="filter-btn" data-filter="active">
+                                <i class="fas fa-spinner"></i>
+                                <span>قيد التنفيذ</span>
+                            </button>
+                            <button class="filter-btn" data-filter="completed">
+                                <i class="fas fa-check-circle"></i>
+                                <span>مكتملة</span>
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                <div class="tasks-container">
+                    <div class="tasks-header">
+                        <form id="task-form">
+                            <input type="text" id="task-input" placeholder="أضف مهمة جديدة...">
+                            <button type="submit" class="add-btn">
+                                <i class="fas fa-plus"></i>
+                                إضافة
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="tasks-list">
+                        <ul id="task-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- المهام السابقة -->
+            <section id="history-view" class="view" style="display: none">
+                <header class="view-header">
+                    <h1>المهام السابقة</h1>
+                    <div class="history-filters">
+                        <div class="calendar-wrapper">
+                            <div class="calendar-controls">
+                                <button type="button" class="calendar-btn">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <span id="selected-date">اختر التاريخ</span>
+                                </button>
+                                <select id="calendar-type" class="calendar-type">
+                                    <option value="gregorian">ميلادي</option>
+                                    <option value="hijri">هجري</option>
+                                </select>
+                            </div>
+                            <input type="date" id="date-picker" class="date-picker">
+                        </div>
+                        <select id="status-filter" class="status-select">
+                            <option value="all">جميع الحالات</option>
+                            <option value="completed">المهام المكتملة</option>
+                            <option value="active">المهام النشطة</option>
+                        </select>
+                    </div>
+                </header>
+                
+                <div class="history-content">
+                    <div class="history-groups">
+                        <!-- سيتم ملؤها بواسطة JavaScript -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <footer class="app-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <img src="logo.svg" alt="شعار مُحكم" width="30" height="30">
+                <div class="footer-text">
+                    <p>نظام محكم اصدار v2 | جميع الحقوق محفوظة &copy; <span id="current-year"></span> | صنع بكل <i class="fas fa-heart" style="color: #00BFA5; font-size: 0.6em;"></i> <span class="designer-name">خباب سيف</span></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- استدعاء ملف قاعدة البيانات Supabase -->
+    <script type="module" src="database.js"></script>
+    <script type="module" src="script.js"></script>
+    <script src="accessibility.js"></script>
+    <!-- مكتبة Intro.js للتوتوريال -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/7.2.0/intro.js" integrity="sha512-f26fxKZJiF0AjutUaQHNJ5KnXSisqyUQ3oyfaoen2apB1wLa5ccW3lmtaRe2jdP5kh4LF2gAHP9xQbx7wYhU5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="tutorial.js"></script>
+    <script>
+        // إضافة السنة الحالية في حقوق النشر
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
